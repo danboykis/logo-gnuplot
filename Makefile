@@ -8,7 +8,7 @@ SRCS := $(wildcard *.c)
 OBJS := $(patsubst %.c,%.o,$(SRCS))
 DEPS := $(patsubst %.c,%.d,$(SRCS))
 
-.PHONY: clean build run
+.PHONY: clean build run 
 
 run: build
 	./$(EXECUTABLE)
@@ -19,11 +19,11 @@ $(EXECUTABLE): $(DEPS) $(OBJS)
 	$(CC) $(LIBS) -o $(EXECUTABLE) $(OBJS)
 
 %.d: %.c
-	$(CC) -M $< > $@
+	$(CC) -M $< > $@ $(CFLAGS)
 	$(CC) -M $< | sed s/\\.o/.d/ > $@
 
 %.o: %.c
-	$(COMPILE) -o $@ $<
+	$(COMPILE) -o $@ $< $(CFLAGS)
 
 clean:
 	-rm $(OBJS) $(EXECUTABLE) $(DEPS)
